@@ -354,7 +354,6 @@ def optimize_JAFIS(fn, maxSpot, maxDistance=MAXDISTANCE, Npop=100, Ngen=30, debu
             spot.printSpot()
 
 
-
     population = Population(allValidSpots, Npop, debug)
     for n in range(Ngen):
         if debug:
