@@ -15,12 +15,12 @@ FILE_0 = 'data/3-9-2021---17-22-21_Llacer335_LR2xyshots.txt'
 FILE_1 = 'data/11-10-2021----18-31-38_grid345_xy_shots.txt'
 FILE_2 = 'data/11-11-2021----15-5-9_Skpyke369_shot_run.txt.txt'
 FILE_3 = 'data/29-10-2021----11-50-58_3030_2nd_XY_shots_run.txt.txt'
-RADIATION = 0.2
-ELITE = 0.2
-NGEN = 400
+RADIATION = 0.2 #0-no mutations. 1-all chromosomes mute
+ELITE = 0.2 #percentage individuals  in next generation
+NGEN = 200
 N_POB = 200
-INITIAL_GEN_NUMBER = 1
-CHANGES_ALLOWED_PER_LENGTH = 0.2
+INITIAL_GEN_NUMBER = 1 #ges in chomosomes in first generation
+CHANGES_ALLOWED_PER_LENGTH = 0.2 #changes / length-chromosome allowed
 DEBUG = False
 
 class Spot:
@@ -248,8 +248,7 @@ class Population():
         for n in range(N):
             self.individualLength[n] = len(self.allIndividuals[n].chromosome)
         self.individualLength = [int(x) for x in self.individualLength]
-        if True:
-            self.print(ev='length')
+        self.print(ev='length')
 
     def evaluateFitness(self):
         N = len(self.allIndividuals)
@@ -338,7 +337,7 @@ class Population():
                     len_init = int(len(self.allIndividuals[i].chromosome))
         for x in list_elems:
             if len(x[0]) == len_init:
-                print('\nMinor CHANGES_ALLOWED_PER_LENGTH: {}\nchanges: {} '
+                print('\nChromosome: {}\nchanges: {} '
                       'length: {} coef: {} < {}'.
                       format(x[0], x[1], len(x[0]), round(x[1] / len(x[0]), 2),
                              CHANGES_ALLOWED_PER_LENGTH))
