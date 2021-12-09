@@ -20,8 +20,10 @@ ELITE = 0.2 #percentage individuals  in next generation
 NGEN = 500
 N_POB = 100
 INITIAL_GEN_NUMBER = 1 #ges in chomosomes in first generation
-CHANGES_ALLOWED_PER_LENGTH = 0 #changes / length-chromosome allowed
-DEBUG = False
+CHANGES_ALLOWED_PER_LENGTH = 0.3 #changes / length-chromosome allowed
+CHANGES_ALLOWED_FLAG = True #0 = CHANGES_ALLOWED_PER_LENGTH
+CHANGES_ALLOWED = 0
+DEBUG = True
 
 class Spot:
     def __init__(self, pos, cla1, is1):
@@ -281,13 +283,21 @@ class Population():
         # Elite 20% longest and zero change
         elite_idx = 0
         for i in sortedIdx:
-            if len(newPopulation.allIndividuals) < int(ELITE * len(sortedIdx))\
-                and self.individualFitness[i] / len(self.allIndividuals[i].chromosome) <= \
-                    CHANGES_ALLOWED_PER_LENGTH:
-                    newPopulation.addIndividual(self.allIndividuals[i])
-                    # if self.debug:
-                    #     print(newPopulation.allIndividuals[elite_idx].chromosome)
-                    elite_idx += 1
+            if CHANGES_ALLOWED_FLAG  == False:
+                if len(newPopulation.allIndividuals) < int(ELITE * len(sortedIdx))\
+                    and self.individualFitness[i] / len(self.allIndividuals[i].chromosome) <= \
+                        CHANGES_ALLOWED_PER_LENGTH:
+                        newPopulation.addIndividual(self.allIndividuals[i])
+                        # if self.debug:
+                        #     print(newPopulation.allIndividuals[elite_idx].chromosome)
+                        elite_idx += 1
+            else:
+                if len(newPopulation.allIndividuals) < int(ELITE * len(sortedIdx))\
+                    and self.individualFitness[i]  <= CHANGES_ALLOWED:
+                        newPopulation.addIndividual(self.allIndividuals[i])
+                        # if self.debug:
+                        #     print(newPopulation.allIndividuals[elite_idx].chromosome)
+                        elite_idx += 1
 
         # Sexual reproduction
         n = len(self.allIndividuals)
@@ -329,12 +339,19 @@ class Population():
         list_elems = []
         len_init = 0
         for i, n in enumerate(self.individualFitness):
-            coef = self.individualFitness[i] / len(self.allIndividuals[i].chromosome)
-            if coef <= CHANGES_ALLOWED_PER_LENGTH:
-                list_elems.append((self.allIndividuals[i].chromosome,
-                                   self.individualFitness[i]))
-                if int(len(self.allIndividuals[i].chromosome)) > len_init:
-                    len_init = int(len(self.allIndividuals[i].chromosome))
+            if CHANGES_ALLOWED_FLAG  == False:
+                coef = self.individualFitness[i] / len(self.allIndividuals[i].chromosome)
+                if coef <= CHANGES_ALLOWED_PER_LENGTH:
+                    list_elems.append((self.allIndividuals[i].chromosome,
+                                       self.individualFitness[i]))
+                    if int(len(self.allIndividuals[i].chromosome)) > len_init:
+                        len_init = int(len(self.allIndividuals[i].chromosome))
+            else:
+                if self.individualFitness[i] <= CHANGES_ALLOWED:
+                    list_elems.append((self.allIndividuals[i].chromosome,
+                                       self.individualFitness[i]))
+                    if int(len(self.allIndividuals[i].chromosome)) > len_init:
+                        len_init = int(len(self.allIndividuals[i].chromosome))
         for x in list_elems:
             if len(x[0]) == len_init:
                 print('\nChromosome: {}\nchanges: {} '
