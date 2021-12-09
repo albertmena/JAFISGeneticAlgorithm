@@ -20,7 +20,7 @@ ELITE = 0.2 #percentage individuals  in next generation
 NGEN = 500
 N_POB = 100
 INITIAL_GEN_NUMBER = 1 #ges in chomosomes in first generation
-CHANGES_ALLOWED_PER_LENGTH = 0.2 #changes / length-chromosome allowed
+CHANGES_ALLOWED_PER_LENGTH = 0 #changes / length-chromosome allowed
 DEBUG = False
 
 class Spot:
@@ -386,7 +386,8 @@ if __name__ == "__main__":
 
     if not DEBUG:
         print('debug = ', DEBUG)
-    FILES = [FILE_0]
+    FILES = [FILE_0, FILE_1, FILE_2, FILE_3]
     for F in FILES:
+        print('File: ', F)
         bestPath, allValidSpots = optimize_JAFIS(
             F, maxSpot=MAXSPOT, Npop=N_POB, debug=DEBUG, Ngen=NGEN)
