@@ -388,6 +388,6 @@ if __name__ == "__main__":
         print('debug = ', DEBUG)
     FILES = [FILE_0, FILE_1, FILE_2, FILE_3]
     for F in FILES:
-        print('File: ', F)
+        print('\nFile: ', F)
         bestPath, allValidSpots = optimize_JAFIS(
             F, maxSpot=MAXSPOT, Npop=N_POB, debug=DEBUG, Ngen=NGEN)
