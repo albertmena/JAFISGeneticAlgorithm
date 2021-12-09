@@ -17,8 +17,8 @@ FILE_2 = 'data/11-11-2021----15-5-9_Skpyke369_shot_run.txt.txt'
 FILE_3 = 'data/29-10-2021----11-50-58_3030_2nd_XY_shots_run.txt.txt'
 RADIATION = 0.2 #0-no mutations. 1-all chromosomes mute
 ELITE = 0.2 #percentage individuals  in next generation
-NGEN = 200
-N_POB = 200
+NGEN = 500
+N_POB = 100
 INITIAL_GEN_NUMBER = 1 #ges in chomosomes in first generation
 CHANGES_ALLOWED_PER_LENGTH = 0.2 #changes / length-chromosome allowed
 DEBUG = False
@@ -338,7 +338,7 @@ class Population():
         for x in list_elems:
             if len(x[0]) == len_init:
                 print('\nChromosome: {}\nchanges: {} '
-                      'length: {} coef: {} < {}'.
+                      'length: {} coef: {} <= {}'.
                       format(x[0], x[1], len(x[0]), round(x[1] / len(x[0]), 2),
                              CHANGES_ALLOWED_PER_LENGTH))
                 return x[0]
@@ -363,7 +363,7 @@ def optimize_JAFIS(fn, maxSpot, maxDistance=MAXDISTANCE, Npop=100, Ngen=30, debu
     return (population.getBest(), allValidSpots)
 
 
-def get_num_combs(numHoles=25, numGens=3):
+def get_num_combs(numHoles=35, numGens=3):
     import itertools
 
     stuff = range(numHoles)
@@ -384,7 +384,9 @@ if __name__ == "__main__":
     print('Number of 5-gene combinations to go through {} holes: {}\n'
           .format(21, get_num_combs(numHoles=21, numGens=5)))
 
-    FILES = [FILE_0, FILE_1, FILE_2, FILE_3]
+    if not DEBUG:
+        print('debug = ', DEBUG)
+    FILES = [FILE_0]
     for F in FILES:
-        bestPath, allValidSpots = optimize_JAFIS(F, maxSpot=MAXSPOT, Npop=N_POB,
-                                             debug=DEBUG, Ngen=NGEN)
+        bestPath, allValidSpots = optimize_JAFIS(
+            F, maxSpot=MAXSPOT, Npop=N_POB, debug=DEBUG, Ngen=NGEN)
